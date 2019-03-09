@@ -20,11 +20,10 @@ namespace ThisNetWorks.SiteManager.Azure.Functions
             [OrchestrationClient]DurableOrchestrationClient starter,
             ILogger log)
         {
-        var manageSiteDto = await req.Content.ReadAsAsync<ManageSiteDto>();
+            var manageSiteDto = await req.Content.ReadAsAsync<ManageSiteDto>();
 
-
-        //it sends the recieved object to the warmsite
-        string instanceId = await starter.StartNewAsync("WarmSite", manageSiteDto);
+            //it sends the recieved object to the warmsite
+            string instanceId = await starter.StartNewAsync("WarmSite", manageSiteDto);
 
             log.LogInformation($"Started Site Warmer with ID = '{instanceId}'.");
 
