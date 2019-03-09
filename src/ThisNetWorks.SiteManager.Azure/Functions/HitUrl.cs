@@ -15,11 +15,15 @@ namespace ThisNetWorks.SiteManager.Azure.Functions
         [FunctionName("HitUrl")]
         public static async Task<UrlResultDto> RunHitUrl([ActivityTrigger] UrlRequestDto requestDto, ILogger log)
         {
-            log.LogDebug($"Hitting url {requestDto.Endpoint} {requestDto.Url}");
+        log.LogDebug($"Hitting url {requestDto.Endpoint} {requestDto.Url}");
 
-            var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(requestDto.Endpoint);
-            var result = await httpClient.GetAsync(requestDto.Url);
+
+            var uriBuilder = new UriBuilder();
+            uriBuilder.Scheme = "https";
+            uriBuilder.Path = requestDto.Url;
+            uriBuilder.Host = requestDto.Endpoint;
+
+            var result = await GetSiteDetails.HttpClient.GetAsync(uriBuilder.ToString());
 
             if (result.StatusCode != HttpStatusCode.OK)
             {

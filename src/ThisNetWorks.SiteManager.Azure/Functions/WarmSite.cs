@@ -13,6 +13,7 @@ namespace ThisNetWorks.SiteManager.Azure.Functions
 {
     public static class WarmSite
     {
+
         [FunctionName("WarmSite")]
         public static async Task<SiteWarmerResultDto> RunWarmSite(
             [OrchestrationTrigger] DurableOrchestrationContext context
