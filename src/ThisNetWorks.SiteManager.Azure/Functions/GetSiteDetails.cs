@@ -17,11 +17,30 @@ namespace ThisNetWorks.SiteManager.Azure.Functions
         [FunctionName("GetSiteDetails")]
         public static async Task<SiteWarmerDto> RunGetSiteDetails([ActivityTrigger] ManageSiteDto manageSiteDto, ILogger log)
         {
-            log.LogDebug($"Getting site warmer list from endpoint {manageSiteDto.SiteWarmerEndPoint}");
+            log.LogDebug($"Getting site warmer list from endpoint {manageSiteDto.SiteWarmerPath}");
 
             SiteWarmerDto siteWarmerDto = null;
-                var res = await HttpClient.GetAsync(manageSiteDto.SiteWarmerEndPoint);
-                siteWarmerDto = await res.Content.ReadAsAsync<SiteWarmerDto>();
+
+            var uriBuilder = new UriBuilder()
+            {
+                Scheme = manageSiteDto.SiteWarmerScheme,
+                Path = manageSiteDto.SiteWarmerPath,
+                Host = manageSiteDto.SiteWarmerHost
+            };
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(uriBuilder.ToString()),
+                Headers = {
+                            { HttpRequestHeader.Accept.ToString(), "application/json" },
+                            { "x-auth-key", manageSiteDto.SiteWarmerAuthKey }
+                        }
+            };
+
+
+            var res = await HttpClient.SendAsync(httpRequestMessage);
+            siteWarmerDto = await res.Content.ReadAsAsync<SiteWarmerDto>();
 
             return siteWarmerDto;
 

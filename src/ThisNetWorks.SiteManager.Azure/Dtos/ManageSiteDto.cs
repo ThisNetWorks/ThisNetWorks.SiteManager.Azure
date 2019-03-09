@@ -6,6 +6,9 @@ namespace ThisNetWorks.SiteManager.Azure.Dtos
 {
     public class ManageSiteDto
     {
-        public string SiteWarmerEndPoint { get; set; }
+        public string SiteWarmerScheme { get; set; }
+        public string SiteWarmerHost { get; set; }
+        public string SiteWarmerPath { get; set; }
+        public string SiteWarmerAuthKey { get; set; }
     }
 }

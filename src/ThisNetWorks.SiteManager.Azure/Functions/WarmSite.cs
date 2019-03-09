@@ -35,11 +35,11 @@ namespace ThisNetWorks.SiteManager.Azure.Functions
 
             foreach (var endpoint in siteWarmerDto.EndpointsToHit)
             {
-                log.LogDebug($"Starting hits on endpoint {endpoint}");
+                log.LogDebug($"Starting hits on endpoint {endpoint.Host}");
                 foreach (var url in siteWarmerDto.RelativeUrls)
                 {
                     var urlResult = await context.CallActivityAsync<UrlResultDto>("HitUrl"
-                        , new UrlRequestDto() { Endpoint = endpoint, Url = url });
+                        , new UrlRequestDto() { Scheme = endpoint.Scheme, Host = endpoint.Host, Path = url });
 
                     siteWarmerResultDto.UrlResultDtos.Add(urlResult);
                 }

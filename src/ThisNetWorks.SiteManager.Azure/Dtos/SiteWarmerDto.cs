@@ -6,7 +6,7 @@ namespace ThisNetWorks.SiteManager.Azure.Dtos
 {
     public class SiteWarmerDto
     {
-        public IList<string> EndpointsToHit { get; set; }
+        public IList<EndpointDto> EndpointsToHit { get; set; }
 
         public IList<string> RelativeUrls { get; set; }
     }
