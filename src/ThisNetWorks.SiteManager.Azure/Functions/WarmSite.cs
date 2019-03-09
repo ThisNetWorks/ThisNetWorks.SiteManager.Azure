@@ -35,7 +35,7 @@ namespace ThisNetWorks.SiteManager.Azure.Functions
 
             foreach (var endpoint in siteWarmerDto.EndpointsToHit)
             {
-                log.LogDebug($"Starting hits on endpoint {endpoint.Host}");
+                log.LogInformation($"Starting hits on endpoint {endpoint.Host}");
                 foreach (var url in siteWarmerDto.RelativeUrls)
                 {
                     var urlResult = await context.CallActivityAsync<UrlResultDto>("HitUrl"
